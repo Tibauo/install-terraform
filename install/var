@@ -1,0 +1,5 @@
+user=tibo
+path_home_user=/home/$user
+terraformversion=0.11.11
+terraformzip=terraform_${terraformversion}_linux_amd64.zip
+terraformlink=https://releases.hashicorp.com/terraform/$terraformversion/$terraformzip

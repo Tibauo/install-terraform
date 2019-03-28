@@ -1,5 +1,11 @@
 #!/bin/bash
-docker run --rm test-terraform terraform --version
+user=${1:-test}
+path_home_user=${2:-/home/test}
+
+echo USER: $user
+echo HOME_PATH: $path_home_user
+
+docker run --user $user --rm test-terraform terraform --version
 retour=$?
 
 if [ $retour == 0 ]; then
@@ -9,12 +15,10 @@ else
   exit $retour
 fi
 
-
-res=`docker run --rm test-terraform /bin/bash -c 'path_scripts=/home/tibo/scripts && for folder in $(ls $path_scripts); do cd $path_scripts/$folder && terraform init && terraform validate ; done'`
+res=`docker run --user $user -e path_scripts=$path_home_user/scripts --rm test-terraform /bin/bash -c 'for folder in $(ls $path_scripts); do cd $path_scripts/$folder && terraform init && terraform validate ; done'`
 
 if [[ "$res" =~ "error" ]] || [[ -z $res ]]; then
   echo "[FAILED] Scripts"
-  echo $res
   exit 1
 else
   echo "[SUCCESS] Scripts"

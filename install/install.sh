@@ -1,20 +1,23 @@
 #!/bin/bash
+set -x
 
 PROGNAME=$0
+user=${1:-root}
+path_home_user=${2:-/root}
+version=${3:-0.11.11}
+terraformzip=terraform_${version}_linux_amd64.zip
+terraformlink=https://releases.hashicorp.com/terraform/$version/$terraformzip
 
 HOME_DIR=$PWD
 echo "HOME_DIR=$HOME_DIR"
 
-source $HOME_DIR/var
-
 usage(){
 cat <<EOF
 Need to be sudoer or root
-Please check var in folder $HOME_DIR/var. All var in this folder need exist
 
 How to use
 ----------
-$PROGNAME
+sudo ./$PROGNAME $user $path_home_user $versionterraform
 
 EOF
 exit 1
